@@ -6,3 +6,7 @@ gem "sinatra-contrib"
 
 gem "json"
 gem "rspec"
+
+group :development do
+  gem 'pry'
+end

@@ -7,6 +7,7 @@ describe 'The Word Counting App' do
   end
 
   it "returns 200 and has the right keys" do
+    skip
     get '/'
     expect(last_response).to be_ok
     parsed_response = JSON.parse(last_response.body)
