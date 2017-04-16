@@ -1,11 +1,12 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
 
-get '/' do
-  files = %w(texts/0 texts/1 texts/2 texts/3 texts/4 texts/5)
+set :root, File.join(Dir.pwd, "app")
+set :views, Proc.new { File.join(root, "views") }
 
-  text_file = files.sample
-  source_text = File.read(text_file).strip
+
+get '/' do
+  source_text = TextSampler.new.randomize_file.text.strip
   text_array = source_text.split
 
   exclude = []
