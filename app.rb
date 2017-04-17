@@ -7,12 +7,11 @@ set :views, Proc.new { File.join(root, "views") }
 
 get '/' do
   source_text = TextSampler.new.randomize_file.text.strip
-  text_array = source_text.split
-
-  exclude = []
-  for i in ((text_array.length-5)...(text_array.length))
-    exclude << text_array[i]
-  end
+  exclude = TextExclusionHandler.new(source_text).exclude
 
   erb :"get.json", locals: { source_text: source_text, exclude: exclude }
+end
+
+post '/' do
+
 end
