@@ -1,5 +1,6 @@
 require "./spec/spec_helper"
 require "json"
+require "pry"
 
 describe 'The Word Counting App' do
   def app
@@ -8,6 +9,7 @@ describe 'The Word Counting App' do
 
   it "returns 200 and has the right keys" do
     get '/'
+    binding.pry
     expect(last_response).to be_ok
     parsed_response = JSON.parse(last_response.body)
     expect(parsed_response).to have_key("text")
