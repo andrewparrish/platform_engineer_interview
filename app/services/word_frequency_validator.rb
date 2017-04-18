@@ -9,13 +9,18 @@ class WordFrequencyValidator
     @exclusion = exclusion.map { |str| str.downcase.gsub(/[^a-z0-9\s]/i, '') }
     @cookies = cookies
     @freq = downcased_freq(freq)
+    @cookie_handler = CookieHashHandler.new(text, exclusion)
   end
 
   def valid?
-    frequency_count_correct?
+    client_didnt_cheat? && frequency_count_correct?
   end
 
   private
+
+  def client_didnt_cheat?
+    @cookie_handler.valid?(@cookies)
+  end
 
   def downcased_freq(freq)
     new_hash = {}

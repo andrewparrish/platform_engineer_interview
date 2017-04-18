@@ -19,6 +19,5 @@ get '/' do
 end
 
 post '/' do
-  return status 400 unless CookieHashHandler.new(params['text'], params['exclude']).valid?(cookies[COOKIES_KEY])
-  WordFrequencyValidator.from_request_params(params).valid? ? (status 200) : (status 400)
+  WordFrequencyValidator.from_request_params(params, cookies[COOKIES_KEY]).valid? ? (status 200) : (status 400)
 end

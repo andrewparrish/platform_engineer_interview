@@ -12,12 +12,13 @@ describe WordFrequencyValidator, type: :service do
       "over" => 1,
       "dog" => 1
   }
+  cookie = CookieHashHandler.new(text, exclude).cookie_hash
   it 'should properly validate a correct answer' do
-    expect(WordFrequencyValidator.new(text, exclude, correct_answer).valid?).to be_truthy
+    expect(WordFrequencyValidator.new(text, exclude, correct_answer, cookie).valid?).to be_truthy
   end
 
   it 'should properly invalidate an incorrect answer' do
     incorrect_answer = Hash[correct_answer.map { |k, v| [k, v += 1] }]
-    expect(WordFrequencyValidator.new(text, exclude, incorrect_answer).valid?).to be_falsey
+    expect(WordFrequencyValidator.new(text, exclude, incorrect_answer, cookie).valid?).to be_falsey
   end
 end
