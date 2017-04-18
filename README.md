@@ -36,7 +36,7 @@ to integers. I do validate this format, and should the body be improperly format
     }
 ```
 
-2. I assumed that the client side will support cookie usage for use in the anti-cheating functionality which I will describe more in the "Implementation Notes" block below. Should you need to disable this functionality, simply run in the same console as your server:
+2. I assumed that the client side will support cookie usage for use in the anti-cheating functionality which I will describe more in the "Implementation Notes" block below. Should you need to disable this functionality (such as not having to want to deal with them while testing with curl), simply run in the same console as your server:
 ```
     export disable_cheating_prevention=true
 ```
