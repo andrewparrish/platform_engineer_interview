@@ -1,5 +1,60 @@
 # Word Count Validator
 
+## My Implementation
+
+#### How to Run:
+First, assume you have the bundler gem properly installed on your system, run the following command to make sure all necessary gems are installed:
+```ruby
+    bundle
+```
+
+Then, to run the server (which will be hosted on localhost:8000), run:
+```
+    ./run
+```
+
+Or, to run the test suite, run:
+```ruby
+    rspec
+```
+
+#### Assumptions
+
+1. I assumed that the body of the post request would always be in the following json format, where text is a string, exclude is an array, and answer is a hash with string keys pointing
+to integers. I do validate this format, and should the body be improperly formatted, it will return 400:
+
+```json
+    {
+      "text": "The text that we are matching",
+      "exclude": ["that", "we"],
+      "answer": {
+        "the": 1,
+        "text": 1,
+        "are": 1,
+        "matching": 1
+      }
+    }
+```
+
+2. I assumed that the client side will support cookie usage for use in the anti-cheating functionality which I will describe more in the "Implementation Notes" block below. Should you need to disable this functionality, simply run in the same console as your server:
+```
+    export disable_cheating_prevention=true
+```
+3. I went ahead and set up the file structure to mimic how a larger sinatra app might look, with an app/ folder containing relevant folders (views, services, and if it was a larger app, models, etc)
+4. I assumed that we would want the number of words to exclude to be fairly random upon each request. As such the number of excludes to use is randomize to be between 1 and the number of unique words in the string  - 1.
+
+#### Design Goals
+
+1. My first goal was to make the app.rb route methods as lightweight as possible. This was achieved by delegating all work to Service Objects.
+2. My second goal was to make all service objects as single-purpose as possible to minimize any confusion, and easily be able to be dropped and used wherever.
+
+### Implementation Notes
+
+1. I do some minor parameter cleaning to ensure the data is valid and can be processed properly. Specifically, I downcase all strings and remove punctuation.
+2. In order to prevent cheating, what I have done is used cookies stored after the get request and then validated on the post request. This cookie is a sha256 hash of the text combined with a joined string of the exclude array. 
+When the client attempts to check an answer, the text/exclude that they provide in the body is hashed and compared against their cookie. Should it not match, or not be present, the server returns a 400 status code. My decision
+to use cookies is to ensure that the server is completely stateless, and any state-related work is delegated to the client.
+
 ## Objective
 
 Recently the internet has exploded to reach across the galaxy.  There is a hostile species of troll aliens that have started infesting the internet with disruptive, angry comments on internet forums.  Scientists have determined that the troll aliens are really bad at counting words.  Thus they have tasked you with creating a type of [CAPTCHA](http://en.wikipedia.org/wiki/CAPTCHA) for troll aliens to keep them out of the forums. Trying to be helpful, the scientists have sent along some starter code. It's not complete and some things could probably be done better. To run the scientists' starts code:

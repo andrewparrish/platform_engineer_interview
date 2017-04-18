@@ -11,6 +11,7 @@ class CookieHashHandler
   end
 
   def valid?(client_cookie_hash)
+    return true if ENV['disable_cheating_prevention']
     client_cookie_hash && client_cookie_hash == cookie_hash
   end
 
