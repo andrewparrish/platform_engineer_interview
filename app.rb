@@ -7,7 +7,7 @@ require "./app/services/text_exclusion_handler"
 require "./app/services/text_sampler"
 require "./app/services/word_frequency_validator"
 
-require "pry"
+require "json"
 
 set :root, File.join(Dir.pwd, "app")
 set :views, Proc.new { File.join(root, "views")}
@@ -25,6 +25,7 @@ get '/' do
 end
 
 post '/' do
-  binding.pry
-  WordFrequencyValidator.from_request_params(params, cookies[COOKIES_KEY]).valid? ? (status 200) : (status 400)
+  # Support either request using  parameters or json body (expected)
+  body = params == {} ? JSON.parse(request.body.read) : params
+  WordFrequencyValidator.from_request_params(body, cookies[COOKIES_KEY]).valid? ? (status 200) : (status 400)
 end
