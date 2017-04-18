@@ -6,7 +6,7 @@ class TextExclusionHandler
     @excluded = nil
   end
 
-  def exclude(num_to_exclude = rand(word_count - 1))
+  def exclude(num_to_exclude = rand(1..word_count - 1))
     return [] unless multiple_unique_words?
     @excluded ||= generate_exclusive_words(num_to_exclude)
   end
@@ -14,7 +14,8 @@ class TextExclusionHandler
   private
 
   def generate_exclusive_words(num_to_exclude)
-    @text.split.uniq.sample(num_to_exclude).reject(&:nil?)
+    # Clean out punctuation from excluded words
+    @text.downcase.gsub(/[^a-z0-9\s]/i, '').split.uniq.sample(num_to_exclude).reject(&:nil?)
   end
 
   def multiple_unique_words?
