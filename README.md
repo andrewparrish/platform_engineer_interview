@@ -13,7 +13,13 @@ Then, to run the server (which will be hosted on localhost:8000), run:
     ./run
 ```
 
-Or, to run the test suite, run:
+If you are planning on using curl to interact with the server, and don't want to handle cookies, make sure to disable cheating protection using the following command:
+```
+    export disable_cheating_prevention=true
+```
+More info on this can be found below.
+
+To run the test suite, run:
 ```ruby
     rspec
 ```
