@@ -36,9 +36,6 @@ class WordFrequencyValidator
   end
 
   def frequency_count_correct?
-    correct_freq_hash.each do |k, v|
-      return false unless @freq[k] && @freq[k] == v
-    end
-    true
+    correct_freq_hash == @freq
   end
 end
