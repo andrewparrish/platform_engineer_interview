@@ -1,8 +1,12 @@
 class WordFrequencyValidator
+  def self.from_request_params(params, cookies = nil)
+    self.new(params['text'], params['exclude'], params['answer'], cookies)
+  end
+
   def initialize(text, exclusion, freq, cookies = nil)
     # Clean out punctuation that shouldn't be counted
     @text = text.downcase.gsub(/[^a-z0-9\s]/i, '')
-    @exclusion = exclusion
+    @exclusion = exclusion.map { |str| str.downcase.gsub(/[^a-z0-9\s]/i, '') }
     @cookies = cookies
     @freq = downcased_freq(freq)
   end
@@ -16,7 +20,7 @@ class WordFrequencyValidator
   def downcased_freq(freq)
     new_hash = {}
     freq.each_pair do |k, v|
-      new_hash.merge!(k.downcase => v)
+      new_hash.merge!(k.downcase => v.to_i)
     end
 
     new_hash

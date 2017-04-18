@@ -13,4 +13,5 @@ get '/' do
 end
 
 post '/' do
+  WordFrequencyValidator.from_request_params(params).valid? ? (status 200) : (status 400)
 end
