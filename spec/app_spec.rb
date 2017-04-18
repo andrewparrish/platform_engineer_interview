@@ -24,6 +24,12 @@ describe 'The Word Counting App' do
     expect(last_response.status).to eql 400
   end
 
+  it "returns 400 when you try to answer without first querying for a 'captcha'" do
+    clear_cookies
+    post '/', { text: "Call me Ishmael.", exclude: ["Ishmael"], answer: { "call" => 1, "me" => 1 }}
+    expect(last_response.status).to eql 400
+  end
+
   it "returns 200 for a correct answer" do
     post '/', { text: "Call me Ishmael.", exclude: ["Ishmael"], answer: { "call" => 1, "me" => 1 }}
     expect(last_response.status).to eql 200
