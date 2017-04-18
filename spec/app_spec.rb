@@ -1,6 +1,5 @@
 require "./spec/spec_helper"
 require "json"
-require "pry"
 
 describe 'The Word Counting App' do
   before :each do
@@ -18,6 +17,11 @@ describe 'The Word Counting App' do
     parsed_response = JSON.parse(last_response.body)
     expect(parsed_response).to have_key("text")
     expect(parsed_response).to have_key("exclude")
+  end
+
+  it "returns 400 for poorly formatted request" do
+    post '/', { foo: 'bleh', exclude: 'This is bad' }
+    expect(last_response.status).to eql 400
   end
 
   it "returns 200 for a correct answer" do
